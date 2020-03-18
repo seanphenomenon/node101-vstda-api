@@ -5,9 +5,9 @@ const app = express();
 
 app.use(morgan('dev'));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
 
 // add your code here
 
@@ -34,7 +34,6 @@ var initialData = [
 ];
 
 
-
 app.get('/', function (req, res) {
   res.status(200).send({ status: 'ok' });
 });
@@ -49,20 +48,19 @@ app.get('/api/TodoItems/:id', function (req, res) {
 
 app.post('/api/TodoItems/', function(req, res) {
 
-console.log('hello')
-  // var newItem =
-  //   {
-  //   todoItemId: req.body.todoItemId,
-  //   name: req.body.name,
-  //   priority: req.body.priority,
-  //   completed: req.body.completed
-  // }
+ var newItem = {
+    "todoItemId": 101,
+    "name": "Sean test",
+    "priority": 5,
+    "completed": false,
+  }
 
 
 
-// initialData.push(newItem)
+initialData.push(newItem)
 
-res.status(201).json(newItem);
+console.log("hello")
+res.status(201).send(newItem)
 
 });
 
