@@ -5,9 +5,14 @@ const app = express();
 
 app.use(morgan('dev'));
 
+
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// parses application json
 app.use(bodyParser.json());
 
+const router = express.Router();
+app.use('/', router)
 
 // add your code here
 
@@ -33,40 +38,36 @@ var initialData = [
   }
 ];
 
+// route handlers for requests to  all paths with /
 
-app.get('/', function (req, res) {
-  res.status(200).send({ status: 'ok' });
-});
+router
+  .route('/')
+  .all(function (req, res, next) {
+    res.json({ status: "ok" });
+  })
 
-app.get('/api/TodoItems', function (req, res) {
-  res.status(200).send(initialData);
-});
+router
+  .route('/api/TodoItems')
+  .get(function (req, res, next) {
+    res.json(initialData);
+  })
+  .post(function (req, res, next) {
+    res.status(201).json(req.body);
+  })
+  .put(function (req, res, next) {
+    res.status(201).json(req.body)
+  });
 
-app.get('/api/TodoItems/:id', function (req, res) {
-  res.status(200).send(initialData[req.params.id]);
-});
-
-app.post('/api/TodoItems/', function(req, res) {
-
- var newItem = {
-    "todoItemId": 101,
-    "name": "Sean test",
-    "priority": 5,
-    "completed": false,
-  }
-
-
-
-initialData.push(newItem)
-
-console.log("hello")
-res.status(201).send(newItem)
-
-});
-
-
-
-
+router
+  .route('/api/TodoItems/:id')
+  .get(function (req, res, next) {
+    res.status(200).send(initialData[req.params.id]);
+  })
+  .delete(function (req, res, next) {
+    let item = initialData[req.params.id]
+    initialData.splice(req.params.id, 1);
+    res.status(200).json(item);
+  });
 
 
 
