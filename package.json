@@ -8,11 +8,9 @@
     "npm": "6.14.3"
   },
   "scripts": {
-    "dev": "webpack --mode development",
-    "build": "webpack --mode development",
+    "build": "webpack",
     "test": "mocha test --exit",
-    "start": "npm run build && node ./server/index.js",
-    "heroku-postbuild": "ng build --prod"
+    "start": "npm run build && node ./server/index.js"
   },
   "author": "",
   "license": "ISC",
